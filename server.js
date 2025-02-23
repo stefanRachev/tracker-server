@@ -17,13 +17,14 @@ mongoose
   .catch((err) => console.log("MongoDB connection error:", err));
 
 const corsOptions = {
-  origin: ["http://localhost:3000", "http://localhost:5173"],
-  methods: ["GET", "POST", "PUT", "DELETE"],
-  allowedHeaders: [
-    "Content-Type",
-    "Authorization",
+  origin: [
+    "http://localhost:3000",
+    "http://localhost:5173",
     "https://tracker-server-xob4.onrender.com",
   ],
+  methods: ["GET", "POST", "PUT", "DELETE","OPTIONS"],
+  allowedHeaders: ["Content-Type", "Authorization"],
+  credentials: true,
 };
 
 app.use(cors(corsOptions));
