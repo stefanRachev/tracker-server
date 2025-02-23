@@ -7,6 +7,4 @@ services:
     startCommand: node server.js
     envVars:
       - key: MONGO_URI
-        value: "mongodb+srv://starfystef:X3P09xzfTYvvEk2P@stef-app-cluster.zgllr.mongodb.net/expense-tracker?retryWrites=true&w=majority&appName=stef-app-cluster"
-      - key: PORT
-        value: "5001"
+        value: ${MONGO_URI} 
