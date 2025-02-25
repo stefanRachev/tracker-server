@@ -3,10 +3,15 @@ const express = require("express");
 const cors = require("cors");
 const mongoose = require("mongoose");
 const itemRoutes = require("./src/routes");
+const path = require("path");
+const { title } = require("process");
 
 const port = process.env.PORT || 5001;
 
 const app = express();
+
+app.set("view engine", "ejs");
+app.set("views", path.join(__dirname, "views"));
 
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
@@ -32,7 +37,10 @@ app.use(cors(corsOptions));
 app.options("*", cors(corsOptions));
 
 app.get("/", (req, res) => {
-  res.send("Hello from the server!");
+  res.render("index", { 
+    title: "Expense Tracker - Home", 
+    description: "Track your expenses easily with our Expense Tracker App" 
+  });
 });
 
 app.use("/api", itemRoutes);
