@@ -37,9 +37,11 @@ app.use(cors(corsOptions));
 app.options("*", cors(corsOptions));
 
 app.get("/", (req, res) => {
-  res.render("index", { 
-    title: "Expense Tracker - Home", 
-    description: "Track your expenses easily with our Expense Tracker App" 
+  res.render("index", {
+    title: "Expense Tracker",
+    description: "Track your expenses and manage your budget effortlessly.",
+    image: "/path/to/your/image.jpg", 
+    url: "https://expense-tracker-olive-one.vercel.app/" 
   });
 });
 
