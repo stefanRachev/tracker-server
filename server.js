@@ -1,8 +1,8 @@
 require("dotenv").config();
 const express = require("express");
 const cors = require("cors");
+const routes = require("./src/routes")
 const mongoose = require("mongoose");
-const itemRoutes = require("./src/routes");
 const path = require("path");
 const { title } = require("process");
 
@@ -51,7 +51,7 @@ app.get("/*", (req, res) => {
   res.sendFile(path.join(__dirname, "..", "tracker-client", "dist", "index.html"));
 });
 
-app.use("/api", itemRoutes);
+app.use("/api", routes);
 
 app.listen(port, () => {
   console.log(`Server running on port ${port}`);

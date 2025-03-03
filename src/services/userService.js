@@ -9,13 +9,13 @@ exports.signToken = (userId) => {
   });
 };
 
-exports.registerUser = async (email, password) => {
+exports.registerUser = async (username, email, password) => {
   const existingUser = await User.findOne({ email });
   if (existingUser) {
     throw new Error("User already exists with this email");
   }
 
-  const newUser = await User.create({ email, password });
+  const newUser = await User.create({ username, email, password });
 
   const accessToken = exports.signToken(newUser._id);
 

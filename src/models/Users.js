@@ -3,6 +3,12 @@ const bcrypt = require("bcrypt");
 
 const userSchema = new mongoose.Schema(
   {
+    username: {
+      type: String,
+      required: true,
+      unique: true,
+      minlength: 3,
+    },
     email: {
       type: String,
       required: true,
@@ -25,8 +31,6 @@ userSchema.pre("save", async function (next) {
 
   next();
 });
-
-
 
 const User = mongoose.model("User", userSchema);
 module.exports = User;
