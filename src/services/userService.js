@@ -16,11 +16,14 @@ exports.registerUser = async (username, email, password) => {
   }
 
   const newUser = await User.create({ username, email, password });
+  const userWithoutPassword = await User.findById(newUser._id).select(
+    "-password"
+  );
 
   const accessToken = exports.signToken(newUser._id);
 
   return {
     accessToken,
-    user: newUser,
+    user: userWithoutPassword, 
   };
 };
