@@ -24,6 +24,27 @@ exports.registerUser = async (username, email, password) => {
 
   return {
     accessToken,
-    user: userWithoutPassword, 
+    user: userWithoutPassword,
+  };
+};
+
+exports.loginUser = async (email, password) => {
+  const user = await User.findOne({ email }).select("+password");
+  if (!user) {
+    throw new Error("User not found with this email");
+  }
+
+  const isPasswordValid = await user.comparePassword(password);
+  if (!isPasswordValid) {
+    throw new Error("Invalid password");
+  }
+
+  const accessToken = exports.signToken(user._id);
+
+  const userWithoutPassword = await User.findById(user._id).select("-password");
+
+  return {
+    accessToken,
+    user: userWithoutPassword,
   };
 };
