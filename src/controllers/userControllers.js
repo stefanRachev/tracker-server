@@ -59,3 +59,28 @@ exports.login = async (req, res) => {
     });
   }
 };
+
+exports.validateToken = async (req, res) => {
+  const token = req.headers.authorization?.split(" ")[1];
+
+  if (!token) {
+    return res.status(401).json({
+      status: "fail",
+      message: "No token provided",
+    });
+  }
+
+  try {
+    const user = await userService.validateToken(token);
+
+    res.status(200).json({
+      status: "success",
+      user,
+    });
+  } catch (err) {
+    res.status(401).json({
+      status: "fail",
+      message: err.message,
+    });
+  }
+};

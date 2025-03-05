@@ -48,3 +48,19 @@ exports.loginUser = async (email, password) => {
     user: userWithoutPassword,
   };
 };
+
+exports.validateToken = async (token) => {
+  try {
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+
+    const user = await User.findById(decoded.id).select("-password");
+
+    if (!user) {
+      throw new Error("User not found");
+    }
+
+    return user;
+  } catch (error) {
+    throw new Error("Invalid token");
+  }
+};
