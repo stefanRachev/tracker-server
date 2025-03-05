@@ -15,6 +15,8 @@ exports.registerUser = async (username, email, password) => {
     throw new Error("User already exists with this email");
   }
 
+  username = username.charAt(0).toUpperCase() + username.slice(1);
+
   const newUser = await User.create({ username, email, password });
   const userWithoutPassword = await User.findById(newUser._id).select(
     "-password"

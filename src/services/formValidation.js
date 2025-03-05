@@ -33,6 +33,8 @@ const validateFields = (formData) => {
       errors.username = "Username cannot contain leading or trailing spaces";
     } else if (formData.username.toLowerCase().includes("admin")) {
       errors.username = "Username cannot contain the word 'admin'";
+    } else if (/^\d/.test(formData.username)) {
+      errors.username = "Username cannot start with a number";
     }
   }
 
