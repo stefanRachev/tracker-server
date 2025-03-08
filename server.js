@@ -23,7 +23,7 @@ mongoose
 
 const corsOptions = {
   origin: [
-    "http://localhost:3000",
+    "http://localhost:3000",  
     "http://localhost:5173",
     "https://tracker-server-xob4.onrender.com",
     "https://expense-tracker-olive-one.vercel.app",
@@ -36,6 +36,9 @@ const corsOptions = {
 app.use(cors(corsOptions));
 app.options("*", cors(corsOptions));
 
+  
+app.use("/api", routes);
+
 app.use(express.static(path.join(__dirname, "..", "tracker-client", "dist")));
 
 app.get("/", (req, res) => {
@@ -47,11 +50,12 @@ app.get("/", (req, res) => {
   });
 });
 
+
+
 app.get("/*", (req, res) => {
   res.sendFile(path.join(__dirname, "..", "tracker-client", "dist", "index.html"));
 });
 
-app.use("/api", routes);
 
 app.listen(port, () => {
   console.log(`Server running on port ${port}`);
