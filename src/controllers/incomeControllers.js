@@ -3,52 +3,48 @@ const Income = require("../models/Income");
 
 exports.createIncome = async (req, res) => {
   try {
-    const {amount, description,userId } = req.body;
+    const { amount, description, userId, type } = req.body;
 
-  
-
-    if (!userId || !amount) {
-      return res.status(400).json({ message: "Не са подадени всички задължителни полета" });
+    if ((!userId || !amount || !type || !description)) {
+      return res
+        .status(400)
+        .json({ message: "Не са подадени всички задължителни полета" });
     }
 
     const newIncome = new Income({
       userId,
       amount,
-      description, 
+      description,
+      type,
     });
 
-   
     const savedIncome = await newIncome.save();
-    res.status(201).json(savedIncome);  
+    res.status(201).json(savedIncome);
   } catch (error) {
     res.status(500).json({ message: "Грешка при създаване на доход", error });
   }
 };
 
-
 exports.getIncomesByUser = async (req, res) => {
   try {
     const { id } = req.params;
-    const { month, year } = req.query;  
+    const { month, year } = req.query;
     let query = { userId: id };
 
-   
     if (month && year) {
       query.createdAt = {
-        $gte: new Date(`${year}-${month}-01`),  
-        $lt: new Date(`${year}-${parseInt(month) + 1}-01`), 
+        $gte: new Date(`${year}-${month}-01`),
+        $lt: new Date(`${year}-${parseInt(month) + 1}-01`),
       };
     }
 
-   
     const incomes = await Income.find(query);
-    res.status(200).json(incomes);  
+    res.status(200).json(incomes);
   } catch (error) {
     console.error("Грешка в getIncomesByUser:", error);
     res.status(500).json({ message: "Грешка при взимане на доходите", error });
   }
 };
-
 
 exports.updateIncome = async (req, res) => {
   try {
