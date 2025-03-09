@@ -18,9 +18,14 @@ const incomeSchema = new mongoose.Schema(
       default: "",
     },
     type: {
-      type: String,
+      type: String, 
       enum: ["salary", "bonus", "investment", "other"],
       required: true,
+    },
+    subType: {
+      type: String,
+      enum: ["sale", "gambling", "gift", "refund", "other"],
+      default: "other",
     },
   },
   { timestamps: true }

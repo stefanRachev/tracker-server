@@ -2,26 +2,29 @@
 const Income = require("../models/Income");
 
 exports.createIncome = async (req, res) => {
+  const { amount, description, userId, type, subType } = req.body;
+
+  if (!userId || !amount || !type || !description) {
+    return res
+      .status(400)
+      .json({ message: "All required fields must be provided" });
+  }
+
+  const finalSubType = subType || "other";
+
   try {
-    const { amount, description, userId, type } = req.body;
-
-    if ((!userId || !amount || !type || !description)) {
-      return res
-        .status(400)
-        .json({ message: "Не са подадени всички задължителни полета" });
-    }
-
     const newIncome = new Income({
       userId,
       amount,
       description,
       type,
+      subType: finalSubType,
     });
 
     const savedIncome = await newIncome.save();
     res.status(201).json(savedIncome);
   } catch (error) {
-    res.status(500).json({ message: "Грешка при създаване на доход", error });
+    res.status(500).json({ message: "Error creating income", error });
   }
 };
 
