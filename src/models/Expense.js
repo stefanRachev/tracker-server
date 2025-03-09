@@ -13,7 +13,16 @@ const expenseSchema = new mongoose.Schema(
     },
     description: {
       type: String,
-      required: false,
+      required: true,
+    },
+    tags: {
+      type: [String],
+      default: [],
+    },
+    category: {
+      type: String,
+      enum: ["essential", "entertainment", "unexpected", "harmful"],
+      required: true,
     },
   },
   { timestamps: true }
