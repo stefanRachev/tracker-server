@@ -14,8 +14,8 @@ router.post("/incomes", incomeControllers.createIncome);
 router.get("/incomes/:id", incomeControllers.getIncomesByUser);
 
 router.post("/expenses", expenseControllers.addExpense);
-router.get("/expenses/:id", expenseControllers.getExpenses);
-router.get("/expenses/total/:id", expenseControllers.getTotalExpenses);
+router.get("/expenses", expenseControllers.getExpenses);
+
 
 router.get("/balance", balanceController.getBalance);
 

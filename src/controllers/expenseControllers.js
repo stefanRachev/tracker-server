@@ -4,7 +4,9 @@ exports.addExpense = async (req, res) => {
   const { amount, description, userId, category, tags } = req.body;
 
   if (!amount || !description || !category || !userId) {
-    return res.status(400).json({ message: "Моля, попълнете всички задължителни полета." });
+    return res
+      .status(400)
+      .json({ message: "Моля, попълнете всички задължителни полета." });
   }
 
   try {
@@ -29,29 +31,29 @@ exports.addExpense = async (req, res) => {
 };
 
 exports.getExpenses = async (req, res) => {
-  const { userId } = req.params;
+  const { userId, description, category, startDate, endDate } = req.query;
+
+  if (!userId) {
+    return res.status(400).json({ message: "Изисква се userId." });
+  }
+
+  const filters = { userId };
+
+  if (description) {
+    filters.description = { $regex: description, $options: "i" };
+  }
+  if (category) {
+    filters.category = category;
+  }
+  if (startDate && endDate) {
+    filters.createdAt = { $gte: new Date(startDate), $lte: new Date(endDate) };
+  }
 
   try {
-    const expenses = await Expense.find({ userId });
+    const expenses = await Expense.find(filters).sort({ createdAt: -1 });
     res.status(200).json(expenses);
   } catch (error) {
     console.error(error);
-    res.status(500).json({ message: "Грешка при получаване на разходите." });
-  }
-};
-
-exports.getTotalExpenses = async (req, res) => {
-  const { userId } = req.params;
-
-  try {
-    const totalExpenses = await Expense.aggregate([
-      { $match: { userId } },
-      { $group: { _id: null, totalAmount: { $sum: "$amount" } } },
-    ]);
-
-    res.status(200).json(totalExpenses[0] || { totalAmount: 0 });
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ message: "Грешка при изчисляване на разходите." });
+    res.status(500).json({ message: "Грешка при извличане на разходите." });
   }
 };
