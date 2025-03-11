@@ -6,7 +6,7 @@ exports.addExpense = async (req, res) => {
   if (!amount || !description || !category || !userId) {
     return res
       .status(400)
-      .json({ message: "Моля, попълнете всички задължителни полета." });
+      .json({ message: "Please fill in all required fields." });
   }
 
   try {
@@ -21,10 +21,10 @@ exports.addExpense = async (req, res) => {
 
     res
       .status(201)
-      .json({ message: "Разходът беше добавен успешно.", newExpense });
+      .json({ message: "Expense added successfully.", newExpense });
   } catch (error) {
     console.error(error);
-    res.status(500).json({ message: "Грешка при добавяне на разход." });
+    res.status(500).json({ message: "Error adding expense." });
   }
 };
 
@@ -52,6 +52,6 @@ exports.getExpenses = async (req, res) => {
     res.status(200).json(expenses);
   } catch (error) {
     console.error(error);
-    res.status(500).json({ message: "Грешка при извличане на разходите." });
+    res.status(500).json({ message: "Error fetching expenses." });
   }
 };
