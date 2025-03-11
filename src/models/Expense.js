@@ -15,10 +15,6 @@ const expenseSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    tags: {
-      type: [String],
-      default: [],
-    },
     category: {
       type: String,
       enum: ["essential", "entertainment", "unexpected", "harmful"],

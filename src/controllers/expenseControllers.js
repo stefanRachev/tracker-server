@@ -1,7 +1,7 @@
 const Expense = require("../models/Expense");
 
 exports.addExpense = async (req, res) => {
-  const { amount, description, userId, category, tags } = req.body;
+  const { amount, description, userId, category } = req.body;
 
   if (!amount || !description || !category || !userId) {
     return res
@@ -15,8 +15,7 @@ exports.addExpense = async (req, res) => {
       amount,
       description,
       category,
-      category,
-      tags: tags || [],
+      category,     
     });
 
     await newExpense.save();
@@ -34,7 +33,7 @@ exports.getExpenses = async (req, res) => {
   const { userId, description, category, startDate, endDate } = req.query;
 
   if (!userId) {
-    return res.status(400).json({ message: "Изисква се userId." });
+    return res.status(400).json({ message: "UserId is required." });
   }
 
   const filters = { userId };
