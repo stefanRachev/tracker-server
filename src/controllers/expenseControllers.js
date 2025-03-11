@@ -14,8 +14,7 @@ exports.addExpense = async (req, res) => {
       userId,
       amount,
       description,
-      category,
-      category,     
+      category,    
     });
 
     await newExpense.save();
