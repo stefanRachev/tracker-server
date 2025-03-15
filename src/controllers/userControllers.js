@@ -23,6 +23,7 @@ exports.register = async (req, res) => {
     res.status(201).json({
       status: "success",
       accessToken,
+
       user,
     });
   } catch (err) {
@@ -49,7 +50,9 @@ exports.login = async (req, res) => {
 
     res.status(200).json({
       status: "success",
+
       accessToken,
+
       user,
     });
   } catch (err) {
@@ -79,6 +82,30 @@ exports.validateToken = async (req, res) => {
     });
   } catch (err) {
     res.status(401).json({
+      status: "fail",
+      message: err.message,
+    });
+  }
+};
+
+exports.refreshToken = async (req, res) => {
+  try {
+    const token = req.headers.authorization?.split(" ")[1];
+
+    if (!token) {
+      return res.status(401).json({
+        status: "fail",
+        message: "No access token provided",
+      });
+    }
+    const newAccessToken = await userService.refreshAccessToken(token);
+
+    res.status(200).json({
+      status: "success",
+      accessToken: newAccessToken,
+    });
+  } catch (err) {
+    res.status(400).json({
       status: "fail",
       message: err.message,
     });
