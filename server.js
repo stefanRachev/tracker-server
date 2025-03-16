@@ -3,6 +3,7 @@ const express = require("express");
 const cors = require("cors");
 const routes = require("./src/routes");
 const mongoose = require("mongoose");
+const path = require("path");
 
 
 //const port = process.env.PORT || 5001;
@@ -30,13 +31,19 @@ const corsOptions = {
 
 app.use(cors(corsOptions));
 
+app.use(express.static(path.join(__dirname, "build")));
 
 app.use("/api", routes);
+
+
 
 app.get('/', (req, res) => {
   res.send('Hello from Vercel Serverless!');
 });
 
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, 'build', 'index.html'));
+});
 module.exports = app; 
 
 // app.listen(port, () => {
