@@ -5,7 +5,7 @@ const routes = require("./src/routes");
 const mongoose = require("mongoose");
 
 
-const port = process.env.PORT || 5001;
+//const port = process.env.PORT || 5001;
 
 const app = express();
 
@@ -20,10 +20,8 @@ mongoose
 
 const corsOptions = {
   origin: [
-    "http://localhost:3000",
     "http://localhost:5173",
-    "https://tracker-server-xob4.onrender.com",
-    "https://expense-tracker-olive-one.vercel.app",
+    "https://tracker-client-hazel.vercel.app",
   ],
   methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
   allowedHeaders: ["Content-Type", "Authorization"],
@@ -35,8 +33,8 @@ app.use(cors(corsOptions));
 
 app.use("/api", routes);
 
+module.exports = app; 
 
-
-app.listen(port, () => {
-  console.log(`Server running on port ${port}`);
-});
+// app.listen(port, () => {
+//   console.log(`Server running on port ${port}`);
+// });
