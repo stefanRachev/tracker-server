@@ -33,6 +33,10 @@ app.use(cors(corsOptions));
 
 app.use("/api", routes);
 
+app.get('/', (req, res) => {
+  res.send('Hello from Vercel Serverless!');
+});
+
 module.exports = app; 
 
 // app.listen(port, () => {
