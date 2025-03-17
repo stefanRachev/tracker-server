@@ -25,7 +25,7 @@ exports.registerUser = async (username, email, password) => {
 
   const newUser = await User.create({ username, email, password });
   const userWithoutPassword = await User.findById(newUser._id).select(
-    "-password"
+    "-password -refreshToken"
   );
 
   const accessToken = exports.signToken(newUser._id);
@@ -57,7 +57,7 @@ exports.loginUser = async (email, password) => {
   user.refreshToken = refreshToken;
   await user.save();
 
-  const userWithoutPassword = await User.findById(user._id).select("-password");
+  const userWithoutPassword = await User.findById(user._id).select("-password -refreshToken");
 
   return {
     accessToken,
