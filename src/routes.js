@@ -12,7 +12,7 @@ router.post("/validate-token", userControllers.validateToken);
 router.post("/refresh-token", userControllers.refreshToken);
 
 router.post("/incomes", incomeControllers.createIncome);
-router.get("/incomes/:id", incomeControllers.getIncomesByUser);
+router.get("/incomes", incomeControllers.getIncomes);
 
 router.post("/expenses", expenseControllers.addExpense);
 router.get("/expenses", expenseControllers.getExpenses);
