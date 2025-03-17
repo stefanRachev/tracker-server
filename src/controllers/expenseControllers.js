@@ -40,15 +40,32 @@ exports.getExpenses = async (req, res) => {
   if (description) {
     filters.description = { $regex: description, $options: "i" };
   }
+
   if (category) {
     filters.category = category;
   }
-  if (startDate && endDate) {
-    filters.createdAt = { $gte: new Date(startDate), $lte: new Date(endDate) };
+
+  if (startDate) {
+    if (isNaN(new Date(startDate))) {
+      return res.status(400).json({ message: "Invalid startDate." });
+    }
+    filters.createdAt = { ...filters.createdAt, $gte: new Date(startDate) };
+  }
+
+  if (endDate) {
+    if (isNaN(new Date(endDate))) {
+      return res.status(400).json({ message: "Invalid endDate." });
+    }
+    filters.createdAt = { ...filters.createdAt, $lte: new Date(endDate) };
   }
 
   try {
     const expenses = await Expense.find(filters).sort({ createdAt: -1 });
+
+    if (expenses.length === 0) {
+      return res.status(404).json({ message: "No expenses found." });
+    }
+
     res.status(200).json(expenses);
   } catch (error) {
     console.error(error);
