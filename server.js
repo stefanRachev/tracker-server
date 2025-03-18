@@ -29,7 +29,7 @@ app.get("/", (req, res) => {
   res.send("Hello from Vercel Serverless!");
 });
 
-module.exports = app;
+
 
 app.listen(port, () => {
   console.log(`Server running on port ${port}`);
