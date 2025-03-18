@@ -56,7 +56,9 @@ exports.getExpenses = async (req, res) => {
     if (isNaN(new Date(endDate))) {
       return res.status(400).json({ message: "Invalid endDate." });
     }
-    filters.createdAt = { ...filters.createdAt, $lte: new Date(endDate) };
+    const endDateObj = new Date(endDate);
+    endDateObj.setHours(23, 59, 59, 999); 
+    filters.createdAt = { ...filters.createdAt, $lte: endDateObj };
   }
 
   const pageNumber = parseInt(page) || 1;
