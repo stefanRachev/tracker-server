@@ -1,4 +1,4 @@
-// controllers/incomeControllers.js
+
 const Income = require("../models/Income");
 
 exports.createIncome = async (req, res) => {
