@@ -52,8 +52,15 @@ app.use(
     target: "https://tracker-server-r17d.onrender.com",
     changeOrigin: true,
     secure: false,
-    onProxyReq: (proxyReq, req, res) => {
-      proxyReq.setHeader("Origin", "https://tracker-client-zeta.vercel.app");
+    onProxyRes: (proxyRes, req, res) => {
+      
+      proxyRes.headers["Access-Control-Allow-Origin"] =
+        "https://tracker-client-zeta.vercel.app";
+      proxyRes.headers["Access-Control-Allow-Methods"] =
+        "GET, POST, PUT, DELETE, OPTIONS";
+      proxyRes.headers["Access-Control-Allow-Headers"] =
+        "Content-Type, Authorization";
+      proxyRes.headers["Access-Control-Allow-Credentials"] = "true";
     },
   })
 );
