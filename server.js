@@ -51,7 +51,7 @@ app.use(
   createProxyMiddleware({
     target: "https://tracker-server-r17d.onrender.com",
     changeOrigin: true,
-    secure: false,
+    secure: true,
     onProxyRes: (proxyRes, req, res) => {
       
       proxyRes.headers["Access-Control-Allow-Origin"] =
