@@ -48,6 +48,15 @@ exports.login = async (req, res) => {
   try {
     const { accessToken, user } = await userService.loginUser(email, password);
 
+    res.cookie("test_cookie", "test_value", {
+      httpOnly: true,
+      secure: true,
+      sameSite: "none",
+      maxAge: 24 * 60 * 60 * 1000,
+    });
+
+    console.log("Cookie set successfully!");
+
     res.status(200).json({
       status: "success",
 
