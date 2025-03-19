@@ -29,6 +29,8 @@ app.use(express.json());
 
 app.use("/api", routes);
 
+app.options("*", cors(corsOptions));
+
 app.get("/api/check-cookie", (req, res) => {
   const testCookie = req.cookies.test_cookie;
 
