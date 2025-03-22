@@ -93,3 +93,28 @@ exports.getIncomes = async (req, res) => {
     res.status(500).json({ message: "Error fetching incomes." });
   }
 };
+
+
+
+exports.deleteIncome = async (req, res) => {
+  const { id } = req.params; 
+
+  if (!id) {
+    return res.status(400).json({ message: "Income ID is required." });
+  }
+
+  try {
+   
+    const deletedIncome = await Income.findByIdAndDelete(id);
+
+    if (!deletedIncome) {
+      return res.status(404).json({ message: "Income not found." });
+    }
+
+    res.status(200).json({ message: "Income deleted successfully." });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Error deleting income.", error });
+  }
+};
+
