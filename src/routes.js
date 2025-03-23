@@ -14,11 +14,8 @@ router.post("/refresh-token", userControllers.refreshToken);
 
 router.post("/incomes", incomeControllers.createIncome);
 router.get("/incomes", incomeControllers.getIncomes);
-router.delete(
-  "/incomes/:id",
-  authenticateToken,
-  incomeControllers.deleteIncome
-);
+router.delete("/incomes/:id",authenticateToken,incomeControllers.deleteIncome);
+router.put("/incomes/:id", authenticateToken, incomeControllers.updateIncome);
 
 router.post("/expenses", expenseControllers.addExpense);
 router.get("/expenses", expenseControllers.getExpenses);

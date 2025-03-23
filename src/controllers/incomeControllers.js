@@ -1,4 +1,3 @@
-
 const Income = require("../models/Income");
 
 exports.createIncome = async (req, res) => {
@@ -70,7 +69,7 @@ exports.getIncomes = async (req, res) => {
       return res.status(400).json({ message: "Invalid endDate." });
     }
     const endDateObj = new Date(endDate);
-    endDateObj.setHours(23, 59, 59, 999); 
+    endDateObj.setHours(23, 59, 59, 999);
     filters.createdAt = { ...filters.createdAt, $lte: endDateObj };
   }
 
@@ -80,12 +79,12 @@ exports.getIncomes = async (req, res) => {
 
   try {
     const incomes = await Income.find(filters)
-      .sort({ createdAt: -1 }) 
+      .sort({ createdAt: -1 })
       .skip(skip)
       .limit(pageSize);
 
-    const totalIncomes = await Income.countDocuments(filters); 
-    const hasMore = totalIncomes > pageNumber * pageSize; 
+    const totalIncomes = await Income.countDocuments(filters);
+    const hasMore = totalIncomes > pageNumber * pageSize;
 
     res.status(200).json({ incomes, hasMore });
   } catch (error) {
@@ -94,17 +93,14 @@ exports.getIncomes = async (req, res) => {
   }
 };
 
-
-
 exports.deleteIncome = async (req, res) => {
-  const { id } = req.params; 
+  const { id } = req.params;
 
   if (!id) {
     return res.status(400).json({ message: "Income ID is required." });
   }
 
   try {
-   
     const deletedIncome = await Income.findByIdAndDelete(id);
 
     if (!deletedIncome) {
@@ -118,3 +114,36 @@ exports.deleteIncome = async (req, res) => {
   }
 };
 
+exports.updateIncome = async (req, res) => {
+  const { id } = req.params;
+  const { description, amount, type, subType } = req.body;
+
+  if (!id) {
+    return res.status(400).json({ message: "Income ID is required." });
+  }
+
+  if (!description && !amount && !type && !subType) {
+    return res
+      .status(400)
+      .json({ message: "At least one field is required for update." });
+  }
+
+  try {
+    const updatedIncome = await Income.findByIdAndUpdate(
+      id,
+      { description, amount, type, subType },
+      { new: true, runValidators: true }
+    );
+
+    if (!updatedIncome) {
+      return res.status(404).json({ message: "Income not found." });
+    }
+
+    res
+      .status(200)
+      .json({ message: "Income updated successfully.", income: updatedIncome });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Error updating income.", error });
+  }
+};
